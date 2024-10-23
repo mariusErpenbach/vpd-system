@@ -36,7 +36,7 @@ export default function page () {
           <p>VPD: {currentVpd !== null ? currentVpd : 'Calculating...'}</p>
           <SensorStatus updateSensorData={updateSensorData}></SensorStatus>
           <EquipmentPlanner></EquipmentPlanner>
-          <SensorDataGraph></SensorDataGraph>
+        <SensorDataGraph></SensorDataGraph> 
           <div>
         <p>phase 0 = 0.4 - 0.8 VPD</p>
         <p>phase 1 = 0.8 - 1.2 VPD</p>

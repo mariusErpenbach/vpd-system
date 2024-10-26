@@ -1,47 +1,41 @@
-import { useState, useEffect, useRef } from 'react';
-import { fetchSensorReadingsFromDB } from '../scripts/fetchSensorData';
-import { createSensorChart} from "../util/createSensorChart";
+// SensorDataGraph.jsx
+import { useState, useEffect } from 'react';
+import { fetchSensorData } from "../util/SensorData";
+import MyChart from "./myChart";
 
 export default function SensorDataGraph() {
-    const [sensorData, setSensorData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const chartRef = useRef(null); // Referenz für das Canvas
+    const [sensorDataArray, setSensorDataArray] = useState([]); 
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const data = await fetchSensorReadingsFromDB();
-                setSensorData(data);
-            } catch (error) {
-                console.error('Error fetching sensor readings:', error);
-                setError('Failed to fetch sensor readings.');
-            } finally {
-                setLoading(false);
+            const data = await fetchSensorData();
+            if (data) {
+                setSensorDataArray(prevData => [...prevData, data]);
             }
         };
-        fetchData();
+
+        const intervalId = setInterval(fetchData, 10000);
+        return () => clearInterval(intervalId);
     }, []);
 
-    useEffect(() => {
-        if (sensorData.length > 0) {
-            const ctx = chartRef.current.getContext('2d');
-            createSensorChart(ctx, sensorData); // Chart erstellen
-        }
-    }, [sensorData]);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
+    // Bereite die Daten für die Chart-Komponente vor
+    const timeLabels = sensorDataArray.map(data => data.timestamp);
+    const temperatureData = sensorDataArray.map(data => data.temperature);
 
     return (
         <div id="sensorDataGraph">
             <h1>Sensor Data Graph</h1>
-            <canvas ref={chartRef}></canvas> {/* Canvas für Chart.js */}
+            <MyChart 
+                timeLabels={timeLabels}
+                data={temperatureData}
+            />
+            <ul>
+                {sensorDataArray.map((data, index) => (
+                    <li key={index}>
+                        Time: {data.timestamp} | Temp: {data.temperature}°C | Humidity: {data.humidity}%
+                    </li>
+                ))}
+            </ul>
         </div>
     );
-};
+}

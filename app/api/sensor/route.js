@@ -1,29 +1,26 @@
 import fs from 'fs';
 import path from 'path';
+import 'dotenv/config';
 
-// export default async function handler(req, res) {
-//     // Beispiel: Lade die zuletzt gespeicherten Sensordaten aus einer Datei
-//     const filePath = path.join(process.cwd(), 'sensorData.json');
-//     const data = fs.readFileSync(filePath, 'utf8');
-    
-//     res.status(200).json(JSON.parse(data));
-// }
-
-// app/api/sensor/route.js
-// app/api/sensor/route.js
-export async function GET(req) {
-    const constantTemperature = 25.0; // Feste Temperatur von 25°C
-
-    // Generiere eine zufällige Luftfeuchtigkeit zwischen 40% und 60%
-    const randomHumidity = (Math.random() * 20 + 40).toFixed(1);
-
-    const sensorData = {
-        temperature: constantTemperature.toFixed(1),  // Feste Temperatur
-        humidity: randomHumidity                      // Zufällige Luftfeuchtigkeit
+// Simulierter Sensor-Auslesefunktion
+function getMockSensorData() {
+    return {
+        temperature: (Math.random() * 5) + 20, // Beispielwert: zwischen 20°C und 25°C
+        humidity: (Math.random() * 10) + 40,    // Beispielwert: zwischen 40% und 50%
+        timestamp: new Date().toISOString()
     };
+}
+export async function GET(req) {
+    let sensorData;
+
+    // Prüfe, ob die Umgebungsvariable für Mock-Daten gesetzt ist
+    if (process.env.USE_MOCK_SENSOR_DATA === 'true') {
+        sensorData = getMockSensorData();
+    } else {
+        sensorData = getRealSensorData();
+    }
 
     return new Response(JSON.stringify(sensorData), {
         headers: { 'Content-Type': 'application/json' },
     });
 }
-

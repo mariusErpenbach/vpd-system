@@ -6,16 +6,17 @@ const MyChart = (props) => {
   const chartInstanceRef = useRef(null);
 
   useEffect(() => {
+    console.log(props)
     const ctx = chartRef.current.getContext('2d');
 
     // Erstelle und speichere die Line Chart-Instanz
     chartInstanceRef.current = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM'], // Zeitachsen-Daten
+        labels: props.timeLabels, // Zeitachsen-Daten
         datasets: [{
           label: 'Temperature (°C)',
-          data: [22, 23, 24, 23, 22, 21,55], // Temperaturdaten
+          data: props.humidData, // Temperaturdaten
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           fill: true, // Bereich unter der Linie füllen
@@ -47,7 +48,7 @@ const MyChart = (props) => {
         chartInstanceRef.current.destroy();
       }
     };
-  }, []);
+  }, [props]);
 
   return (
     <div>

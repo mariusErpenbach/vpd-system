@@ -6,7 +6,11 @@ import SensorDataGraph from '../ui/SensorDataGraph';
 export default function page () {
     const [sensorData, setSensorData] = useState({ temperature: null, humidity: null });
     const [currentVpd, setCurrentVpd] = useState(null);
-    const [phase, setPhase] = useState([0,1,2]);
+    const [sensorDataArray, setSensorDataArray] = useState([]); 
+    const [timeLabels, setTimeLabels] = useState([]);
+    const [temperatureData, setTemperatureData] = useState([]);
+  const [humidData, setHumidData] = useState([])
+ 
 
     function calculateVPD(temp, humid) {
         // Check if temp and humid are valid numbers
@@ -23,9 +27,34 @@ export default function page () {
         return vpd.toFixed(2); // Rückgabe des VPD-Werts auf 2 Dezimalstellen
       }
     
+      useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://192.168.178.23:5000/get-sensor-data");
+                if (!response.ok) {
+                    throw new Error("Network response was not ok " + response.statusText);
+                }
+                const data = await response.json();
+                console.log("Fetched Data:", data);
+
+                setSensorDataArray(prevData => [...prevData, data]);
+                setTimeLabels(prevLabels => [...prevLabels, data.timestamp]);
+                setTemperatureData(prevTemps => [...prevTemps, data.temperature]);
+                setHumidData(prevHumidData => [...prevHumidData, data.humidity]);
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        };
+
+        // Intervall festlegen
+        const intervalId = setInterval(fetchData, 10000); // alle 10 Sekunden
+
+        // Aufräumen beim Verlassen des Intervalls
+        return () => clearInterval(intervalId);
+    }, []);
 
     const updateSensorData = (newData) => {
-        console.log(newData)
+     
         if (newData.temperature !== null && newData.humidity !== null) {
             setCurrentVpd(calculateVPD(newData.temperature, newData.humidity));
           }
@@ -36,7 +65,8 @@ export default function page () {
           <p>VPD: {currentVpd !== null ? currentVpd : 'Calculating...'}</p>
           <SensorStatus updateSensorData={updateSensorData}></SensorStatus>
           <EquipmentPlanner></EquipmentPlanner>
-        <SensorDataGraph></SensorDataGraph> 
+          <SensorDataGraph humidData={humidData} timeLabels={timeLabels} temperatureData={temperatureData} sensorDataArray={sensorDataArray }></SensorDataGraph> 
+          
           <div>
         <p>phase 0 = 0.4 - 0.8 VPD</p>
         <p>phase 1 = 0.8 - 1.2 VPD</p>

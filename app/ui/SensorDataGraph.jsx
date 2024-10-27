@@ -1,41 +1,21 @@
-// SensorDataGraph.jsx
 import { useState, useEffect } from 'react';
-import { fetchSensorData } from "../util/SensorData";
 import MyChart from "./myChart";
 
-export default function SensorDataGraph() {
-    const [sensorDataArray, setSensorDataArray] = useState([]); 
-
+export default function SensorDataGraph(props) {
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await fetchSensorData();
-            if (data) {
-                setSensorDataArray(prevData => [...prevData, data]);
-            }
-        };
-
-        const intervalId = setInterval(fetchData, 10000);
-        return () => clearInterval(intervalId);
-    }, []);
-
-    // Bereite die Daten für die Chart-Komponente vor
-    const timeLabels = sensorDataArray.map(data => data.timestamp);
-    const temperatureData = sensorDataArray.map(data => data.temperature);
+     console.log(props)
+    }, [props]);
 
     return (
         <div id="sensorDataGraph">
             <h1>Sensor Data Graph</h1>
             <MyChart 
-                timeLabels={timeLabels}
-                data={temperatureData}
+                timeLabels={props.timeLabels}
+                data={props.temperatureData}
+                temperatureData={props.temperatureData}
+                humidData={props.humidData}
             />
-            <ul>
-                {sensorDataArray.map((data, index) => (
-                    <li key={index}>
-                        Time: {data.timestamp} | Temp: {data.temperature}°C | Humidity: {data.humidity}%
-                    </li>
-                ))}
-            </ul>
+            
         </div>
     );
 }

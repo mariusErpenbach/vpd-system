@@ -7,8 +7,8 @@ export default function SensorDataGraph(props) {
     }, [props]);
 
     return (
-        <div id="sensorDataGraph">
-            <h1>Sensor Data Graph</h1>
+        <div id="sensorDataGraph"> 
+            <h1>Sensor Data Graph (realtime)</h1>
             <MyChart 
                 timeLabels={props.timeLabels}
                 data={props.temperatureData}

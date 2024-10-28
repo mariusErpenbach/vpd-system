@@ -4,7 +4,7 @@ import SensorStatus from '../ui/SensorStatus';
 import EquipmentPlanner from '../ui/EquipmentPlanner';
 import SensorDataGraph from '../ui/SensorDataGraph';
 import { fetchSensorData } from '../ui/actions'; // Importiere fetchSensorData
-
+import { calculateVPD } from '../ui/actions';
 export default function Page () {
     const [currentHumid, setCurrentHumid] = useState(null);
     const [currentTemp, setCurrentTemp] = useState(null);
@@ -14,16 +14,7 @@ export default function Page () {
     const [temperatureData, setTemperatureData] = useState([]);
     const [humidData, setHumidData] = useState([]);
 
-    function calculateVPD(temp, humid) {
-        if (isNaN(temp) || isNaN(humid) || temp === null || humid === null) {
-            console.error('Invalid temperature or humidity values:', temp, humid);
-            return 'Invalid data';
-        }
-        const svp = 0.6108 * Math.exp((17.27 * temp) / (temp + 237.3));
-        const avp = (humid / 100) * svp;
-        const vpd = svp - avp;
-        return vpd.toFixed(2);
-    }
+    
     
     useEffect(() => {
         const intervalId = setInterval(async () => {
@@ -47,7 +38,7 @@ export default function Page () {
     return (
         <div id="dashboardPage">
             <SensorDataGraph humidData={humidData} timeLabels={timeLabels} temperatureData={temperatureData} sensorDataArray={sensorDataArray}></SensorDataGraph> 
-            <SensorStatus currentHumid={currentHumid} currentTemp={currentTemp}></SensorStatus>
+            <SensorStatus currentVpd={currentVpd} currentHumid={currentHumid} currentTemp={currentTemp}></SensorStatus>
             <EquipmentPlanner currentHumid={currentHumid} currentTemp={currentTemp}></EquipmentPlanner>
             <div>
                 <p>phase 0 = 0.4 - 0.8 VPD</p>

@@ -8,7 +8,17 @@ export function calculateHumidity(temperature, desiredVPD) {
     // Berechnung der relativen Luftfeuchtigkeit (RH)
     const relativeHumidity = (ea / es) * 100;
 
-    return relativeHumidity;
+    return parseFloat(relativeHumidity.toFixed(1));
+}
+export function calculateVPD(temp, humid) {
+    if (isNaN(temp) || isNaN(humid) || temp === null || humid === null) {
+        console.error('Invalid temperature or humidity values:', temp, humid);
+        return 'Invalid data';
+    }
+    const svp = 0.6108 * Math.exp((17.27 * temp) / (temp + 237.3));
+    const avp = (humid / 100) * svp;
+    const vpd = svp - avp;
+    return vpd.toFixed(2);
 }
 
 export async function fetchSensorData() {

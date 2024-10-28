@@ -8,6 +8,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+      <script src="https://kit.fontawesome.com/058434cd7c.js" crossorigin="anonymous"></script>
+      </head>
       <body>
         {children}
       </body>

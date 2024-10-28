@@ -7,7 +7,7 @@ export default function EquipmentPlanner (props) {
     const [neededHumid, setNeededHumid] = useState(0)
 
     useEffect(() => {
-        setNeededHumid(calculateHumidity(27,1))        
+        setNeededHumid(calculateHumidity(22,1))        
     }, [props]);
 
     return (
@@ -16,7 +16,7 @@ export default function EquipmentPlanner (props) {
                 <p>Fan Status : {fanStatus}</p>
                 <p>Humdifier Status: {humidifierStatus}</p>
                 {props.currentTemp}
-                <p>needed humidity: {neededHumid} for vpd 1</p>
+                <p>needed humidity: {neededHumid} for vpd: 1</p>
         </div>
     )
 }

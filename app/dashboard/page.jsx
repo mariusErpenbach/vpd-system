@@ -30,7 +30,7 @@ export default function page () {
       useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://192.168.178.23:5000/get-sensor-data");
+                const response = await fetch("http://localhost:5000/get-sensor-data");
                 if (!response.ok) {
                     throw new Error("Network response was not ok " + response.statusText);
                 }

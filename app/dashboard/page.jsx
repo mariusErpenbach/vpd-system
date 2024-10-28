@@ -54,7 +54,6 @@ export default function page () {
     }, []);
 
     const updateSensorData = (newData) => {
-     
         if (newData.temperature !== null && newData.humidity !== null) {
             setCurrentVpd(calculateVPD(newData.temperature, newData.humidity));
           }
@@ -62,8 +61,8 @@ export default function page () {
 
     return (
         <div id="dashboardPage">
-          <p>VPD: {currentVpd !== null ? currentVpd : 'Calculating...'}</p>
-          <SensorStatus updateSensorData={updateSensorData}></SensorStatus>
+          {/* <p>VPD: {currentVpd !== null ? currentVpd : 'Calculating...'}</p>
+          <SensorStatus updateSensorData={updateSensorData}></SensorStatus> */}
           <EquipmentPlanner></EquipmentPlanner>
           <SensorDataGraph humidData={humidData} timeLabels={timeLabels} temperatureData={temperatureData} sensorDataArray={sensorDataArray }></SensorDataGraph> 
           

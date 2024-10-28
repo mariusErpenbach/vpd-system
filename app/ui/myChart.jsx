@@ -6,38 +6,55 @@ const MyChart = (props) => {
   const chartInstanceRef = useRef(null);
 
   useEffect(() => {
-    console.log(props)
     const ctx = chartRef.current.getContext('2d');
 
-    // Erstelle und speichere die Line Chart-Instanz
+    // Zerstört den bestehenden Chart, bevor ein neuer erstellt wird
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
     chartInstanceRef.current = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: props.timeLabels, // Zeitachsen-Daten
+        labels: props.timeLabels,
         datasets: [{
-          label: 'Temperature (°C)',
-          data: props.humidData, // Temperaturdaten
+          label: 'Humidity (%)',
+          data: props.humidData,
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          fill: true, // Bereich unter der Linie füllen
-          tension: 0.4 // für eine geglättete Kurve
+          fill: true,
+          tension: 0.4
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false, // Ermöglicht flexiblere Höhe und Breite
+        layout: {
+          padding: { top: 10, bottom: 10, left: 10, right: 10 }
+        },
         scales: {
-          x: { 
+          x: {
             title: {
               display: true,
-              text: 'Time'
-            }
+              text: 'Time',
+              font: { size: 12 } // Schriftgröße für die X-Achse
+            },
+            ticks: { font: { size: 10 } }
           },
           y: {
             beginAtZero: false,
             title: {
               display: true,
-              text: 'Temperature (°C)'
-            }
+              text: 'Temperature (°C)',
+              font: { size: 12 } // Schriftgröße für die Y-Achse
+            },
+            ticks: { font: { size: 10 } }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            labels: { font: { size: 10 } } // Schriftgröße für die Legende
           }
         }
       }
@@ -51,7 +68,7 @@ const MyChart = (props) => {
   }, [props]);
 
   return (
-    <div>
+    <div style={{ maxWidth: '500px', maxHeight: '300px', margin: '0 auto' }}>
       <canvas ref={chartRef} id="myChart"></canvas>
     </div>
   );

@@ -1,8 +1,8 @@
-import SensorStatus from "./ui/SensorStatus";
+
 export default function Home() {
   return (
     <div id="mainPage">
-      <SensorStatus></SensorStatus>
+      <a href="/dashboard">go to dashboard</a>
     </div>
   );
 }

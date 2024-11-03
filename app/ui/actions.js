@@ -1,15 +1,10 @@
 export function calculateHumidity(temperature, desiredVPD) {
-    // Berechnung des Sättigungsdampfdrucks (es) in hPa
     const es = 6.112 * Math.exp((17.67 * temperature) / (temperature + 243.5));
-
-    // Berechnung des Dampfdrucks (ea) aus VPD, Umrechnung von kPa zu hPa
     const ea = es - (desiredVPD * 10);
-
-    // Berechnung der relativen Luftfeuchtigkeit (RH)
     const relativeHumidity = (ea / es) * 100;
-
     return parseFloat(relativeHumidity.toFixed(1));
 }
+
 export function calculateVPD(temp, humid) {
     if (isNaN(temp) || isNaN(humid) || temp === null || humid === null) {
         console.error('Invalid temperature or humidity values:', temp, humid);
@@ -36,6 +31,37 @@ export async function fetchSensorData() {
         return data;
     } catch (error) {
         console.error("Fetch error:", error);
-        throw error; // Fehler weitergeben, falls benötigt
+        throw error;
+    }
+}
+
+// API-Aufruf zum Einschalten des Relais
+export async function fetchRelayOn() {
+    const baseUrl = "http://192.168.178.23:5001/on"
+    try {
+        const response = await fetch(baseUrl, { method: 'GET' });
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        console.log("Relay turned on");
+    } catch (error) {
+        console.error("Error turning relay on:", error);
+    }
+}
+
+// API-Aufruf zum Ausschalten des Relais
+export async function fetchRelayOff() {
+    const baseUrl = window.location.hostname === "localhost" 
+        ? "http://192.168.178.23:5001/off"
+        : "http://localhost:5001/off";
+
+    try {
+        const response = await fetch(baseUrl, { method: 'GET' });
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        console.log("Relay turned off");
+    } catch (error) {
+        console.error("Error turning relay off:", error);
     }
 }

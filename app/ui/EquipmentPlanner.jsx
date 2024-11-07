@@ -6,20 +6,28 @@
         const [fanStatus,setFanStatus] = useState("Off");
         const [humidifierStatus, setHumidifierStatus] = useState("Off")  
         const [neededHumid, setNeededHumid] = useState(0)
-
+        const [targetVPD, setTargetVPD] = useState(0)
         useEffect(() => {
-            setNeededHumid(calculateHumidity(22,1))        
+            setNeededHumid(calculateHumidity(props.currentTemp,1))        
         }, [props]);
-
+        const handleVPDChange = (e) => {
+            setTargetVPD(e.target.value);
+        };
         return (
-            <div id="equipmentPlanner">
-                    <h1>Equipment Status</h1>
-                    <p>Fan Status : {fanStatus}</p>
-                    <p>Humdifier Status: {humidifierStatus}</p>
-                    {props.currentTemp}
-                    <p>needed humidity: {neededHumid} for vpd: 1</p>
-                    <button onClick={fetchRelayOn}>r1 on</button>
-                    <button onClick={fetchRelayOff}>r1 off</button>
-            </div>
+<div id="equipmentPlanner">
+         
+            <label htmlFor="vpdGoal">VPD-Goal: </label>
+            <input
+                type="float"
+                id="vpdGoal"
+                value={targetVPD}
+                onChange={handleVPDChange}
+            />
+                <br /> <br /> <i className="fa-solid fa-arrow-down"></i> 
+            <p>Humidity needed: {neededHumid}</p>
+            <p><i className="fa-solid fa-fan"></i> : {fanStatus}</p>
+
+
+        </div>
         )
     }

@@ -1,0 +1,18 @@
+
+:root {
+    --chart-bg-color: rgba(90, 115, 179, 0.7); // Hintergrund der Chart
+    --chart-line-color-humidity: rgba(75, 192, 192, 1); // Linienfarbe für Humidity
+    --chart-line-color-temp: rgba(255, 99, 132, 1); // Linienfarbe für Temperature
+    --chart-text-color: black; // Schriftfarbe
+    --chart-grid-color: rgba(0, 0, 0, 0.1); // Farbe der Gitternetzlinien
+  }
+  .chart-container {
+  
+    max-width: 90vw;
+   height:40vh;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--chart-bg-color);
+    border-radius: 8px;
+  }
+  

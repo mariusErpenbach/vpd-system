@@ -37,14 +37,9 @@ export default function Page () {
 
     return (
         <div id="dashboardPage">
-            <SensorDataGraph humidData={humidData} timeLabels={timeLabels} temperatureData={temperatureData} sensorDataArray={sensorDataArray}></SensorDataGraph> 
             <SensorStatus currentVpd={currentVpd} currentHumid={currentHumid} currentTemp={currentTemp}></SensorStatus>
             <EquipmentPlanner currentHumid={currentHumid} currentTemp={currentTemp}></EquipmentPlanner>
-            <div>
-                <p>phase 0 = 0.4 - 0.8 VPD</p>
-                <p>phase 1 = 0.8 - 1.2 VPD</p>
-                <p>phase 2 = 1.2 - 1.6 VPD</p>
-            </div>
+            <SensorDataGraph humidData={humidData} timeLabels={timeLabels} temperatureData={temperatureData} sensorDataArray={sensorDataArray}></SensorDataGraph> 
         </div>
     );
 }

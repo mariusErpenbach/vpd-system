@@ -18,8 +18,8 @@ export function calculateVPD(temp, humid) {
 
 export async function fetchSensorData() {
     const baseUrl = window.location.hostname === "localhost" 
-        ? "http://192.168.178.23:5000/get-sensor-data"
-        : "http://localhost:5000/get-sensor-data";
+        ? "http://192.168.178.23:5001/get-sensor-data"
+        : "http://localhost:5001/get-sensor-data";
 
     try {
         const response = await fetch(baseUrl);
@@ -65,3 +65,5 @@ export async function fetchRelayOff() {
         console.error("Error turning relay off:", error);
     }
 }
+
+

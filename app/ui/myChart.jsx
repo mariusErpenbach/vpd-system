@@ -31,18 +31,28 @@ const MyChart = (props) => {
           {
             label: 'Humidity (%)',
             data: props.humidData,
-            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--chart-line-color-humidity').trim(),
+            borderColor: 'rgba(75, 192, 192, 1)',
             backgroundColor: 'rgba(75, 192, 192, 0.2)',
             fill: true,
-            tension: 0.4
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(0, 123, 255, 1)', // Punktfarbe
+            pointBorderColor: 'rgba(0, 0, 0, 1)', // Rahmenfarbe der Punkte
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
           },
           {
             label: 'Temperature (°C)',
             data: props.temperatureData,
-            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--chart-line-color-temp').trim(),
+            borderColor: 'rgba(255, 99, 132, 1)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             fill: true,
-            tension: 0.4
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(255, 165, 0, 1)', // Punktfarbe
+            pointBorderColor: 'rgba(0, 0, 0, 1)', // Rahmenfarbe der Punkte
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7
           }
         ]
       },
@@ -50,40 +60,38 @@ const MyChart = (props) => {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
-          padding: { top: 20, bottom: 20, left: 10, right: 10 }
+          padding: { top: 10, bottom: 10, left: 10, right: 10 }
         },
         scales: {
           x: {
             title: {
               display: true,
               text: 'Time',
-              color: textColor,
-              font: { size: 14 }
+              font: { size: 12 },
+              color: '#333'
             },
-            ticks: { color: textColor, font: { size: 12 } },
-            grid: { color: gridColor }
+            ticks: { font: { size: 10 }, color: 'white' }
           },
           y: {
             beginAtZero: false,
             title: {
               display: true,
               text: 'Value',
-              color: textColor,
-              font: { size: 14 }
+              font: { size: 12 },
+              color: '#333'
             },
-            ticks: { color: textColor, font: { size: 12 } },
-            grid: { color: gridColor }
+            ticks: { font: { size: 10 }, color: 'white' }
           }
         },
         plugins: {
           legend: {
             display: true,
-            labels: { color: textColor, font: { size: 12 } }
+            labels: { font: { size: 14 }, color: '#333' }
           }
         }
       }
     });
-
+    
     // Chart zerstören beim Unmounten der Komponente
     return () => {
       if (chartInstanceRef.current) {

@@ -2,7 +2,9 @@
 export default function Home() {
   return (
     <div id="mainPage">
-      <a href="/dashboard">go to dashboard</a>
+      <a href="/dashboard">dashboard</a>
+      
+      <a href="/live">liveStream</a>
     </div>
   );
 }

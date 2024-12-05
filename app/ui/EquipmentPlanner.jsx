@@ -6,10 +6,14 @@
         const [fanStatus,setFanStatus] = useState("Off");
         const [humidifierStatus, setHumidifierStatus] = useState("Off")  
         const [neededHumid, setNeededHumid] = useState(0)
-        const [targetVPD, setTargetVPD] = useState(0)
+        const [targetVPD, setTargetVPD] = useState(1)
+
+
         useEffect(() => {
-            setNeededHumid(calculateHumidity(props.currentTemp,1))        
-        }, [props]);
+            setNeededHumid(calculateHumidity(props.currentTemp,targetVPD))        
+        }, [props,targetVPD]);
+
+
         const handleVPDChange = (e) => {
             setTargetVPD(e.target.value);
         };
@@ -23,7 +27,7 @@
                 value={targetVPD}
                 onChange={handleVPDChange}
             />
-                <br /> <br /> <i className="fa-solid fa-arrow-down"></i> 
+            <br /> <br /> <i className="fa-solid fa-arrow-down"></i> 
             <p>Humidity needed: {neededHumid}</p>
             <p><i className="fa-solid fa-fan"></i> : {fanStatus}</p>
 

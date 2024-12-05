@@ -1,11 +1,18 @@
 <table class="tg"><thead>
-  <tr>
+ <tr>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky"></th>
+    <th class="tg-0pky"></th>
+  </tr>
+ </thead>
+<tbody>
+ <tr>
     <th class="tg-0pky">dht22 3v</th>
     <th class="tg-0pky">1</th>
     <th class="tg-0pky">2</th>
     <th class="tg-0pky">fan 5v</th>
-  </tr></thead>
-<tbody>
+  </tr>
   <tr>
     <td class="tg-0pky"></td>
     <td class="tg-0pky">3</td>
